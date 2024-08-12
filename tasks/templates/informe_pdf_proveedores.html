@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Informe de Proveedores</title>
+    <style>
+      .table-custom {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse; /* Para evitar espacios dobles entre bordes */
+      }
+
+      .grafica-row {
+        display: flex; /* Utiliza flexbox para la disposición en una fila */
+        justify-content: space-between; /* Espacia los elementos para que estén en los extremos */
+        margin: 20px 0; /* Ajusta el margen superior e inferior si es necesario */
+      }
+
+      .grafica-container img {
+        width: 300px; /* Ajusta el ancho de la gráfica a un valor fijo */
+        height: auto; /* Mantiene la proporción de la imagen */
+        max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+      }
+
+      .table-custom th,
+      .table-custom td {
+        border: 1px solid #5981f7; /* Agrega un borde gris claro a las celdas */
+        padding: 8px; /* Espacio interno en las celdas */
+        text-align: center; /* Centra el texto dentro de las celdas */
+        vertical-align: top; /* Alinea el texto al principio de la celda verticalmente */
+        overflow: hidden; /* Oculta el contenido que desborda el área de la celda */
+        text-overflow: ellipsis; /* Muestra puntos suspensivos (...) para el texto desbordante */
+        white-space: nowrap; /* Impide que el texto se ajuste en múltiples líneas */
+      }
+
+      .table-custom td.description {
+        white-space: normal; /* Permite el ajuste de línea en la columna de descripción */
+        overflow: visible; /* Muestra el contenido desbordante */
+        text-overflow: clip; /* No usa puntos suspensivos en lugar de mostrar el contenido desbordante */
+        max-width: 200px; /* Establece un ancho máximo para la columna de descripción */
+      }
+
+      .table-custom th {
+        background-color: #f4f4f4; /* Color de fondo para las cabeceras de las columnas */
+        font-weight: bold; /* Negrita para las cabeceras */
+      }
+
+      .table-custom td {
+        background-color: #fff; /* Color de fondo para las celdas de datos */
+      }
+
+      .header {
+        display: flex;
+        align-items: center; /* Alinea verticalmente el contenido */
+        justify-content: space-between; /* Espacia el contenido a los extremos */
+        margin-bottom: 20px; /* Espacio debajo del header */
+      }
+
+      .header img {
+        width: 100px;
+        height: auto; /* Mantiene la proporción de la imagen */
+      }
+
+      .header-text h1,
+      .header-text p {
+        margin: 0; /* Elimina el margen por defecto */
+      }
+
+      .inline {
+        display: inline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Informe de Proveedores</h1>
+        <img
+          src="https://pbs.twimg.com/profile_images/1252440402013151235/DiOzDF3K_400x400.jpg"
+          <!--
+          Reemplaza
+          con
+          la
+          ruta
+          a
+          tu
+          logo
+          --
+        />
+        alt="Logo" />
+        <p>Fecha: {{ fecha_actual }}</p>
+      </div>
+      <div class="content">
+        <h2>Resumen</h2>
+        <p>
+          Este informe proporciona una visión general del estado actual de los
+          proveedores en la empresa. A continuación, se detallan los datos
+          clave:
+        </p>
+        <p>Total de proveedores: {{ total_proveedores }}</p>
+        <p>Proveedores activos: {{ proveedores_activos }}</p>
+        <p>Proveedores inactivos: {{ proveedores_inactivos }}</p>
+
+        <h2>Gráfica de Proveedores por Mes</h2>
+        <div class="grafica-row">
+          <div class="grafica-container">
+            <img src="{{ grafica }}" alt="Gráfica de Proveedores por Mes" />
+          </div>
+        </div>
+
+        <h2>Lista de Proveedores</h2>
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Contacto</th>
+              <th>Teléfono</th>
+              <th>Dirección</th>
+              <th>Fecha de Creación</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for proveedor in proveedores %}
+            <tr>
+              <td>{{ proveedor.nombre }}</td>
+              <td>{{ proveedor.contacto }}</td>
+              <td>{{ proveedor.telefono }}</td>
+              <td>{{ proveedor.direccion }}</td>
+              <td>{{ proveedor.creacion }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5">No hay proveedores disponibles.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

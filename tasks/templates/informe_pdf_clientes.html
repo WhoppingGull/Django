@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Informe de Clientes</title>
+    <style>
+      .table-custom {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse; /* Para evitar espacios dobles entre bordes */
+      }
+
+      .grafica-row {
+        display: flex; /* Utiliza flexbox para la disposición en una fila */
+        justify-content: space-between; /* Espacia los elementos para que estén en los extremos */
+        margin: 20px 0; /* Ajusta el margen superior e inferior si es necesario */
+      }
+
+      .grafica-container img {
+        width: 300px; /* Ajusta el ancho de la gráfica a un valor fijo */
+        height: auto; /* Mantiene la proporción de la imagen */
+        max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+      }
+
+      .table-custom th,
+      .table-custom td {
+        border: 1px solid #5981f7; /* Agrega un borde gris claro a las celdas */
+        padding: 8px; /* Espacio interno en las celdas */
+        text-align: center; /* Centra el texto dentro de las celdas */
+        vertical-align: top; /* Alinea el texto al principio de la celda verticalmente */
+        overflow: hidden; /* Oculta el contenido que desborda el área de la celda */
+        text-overflow: ellipsis; /* Muestra puntos suspensivos (...) para el texto desbordante */
+        white-space: nowrap; /* Impide que el texto se ajuste en múltiples líneas */
+      }
+
+      .table-custom td.description {
+        white-space: normal; /* Permite el ajuste de línea en la columna de descripción */
+        overflow: visible; /* Muestra el contenido desbordante */
+        text-overflow: clip; /* No usa puntos suspensivos en lugar de mostrar el contenido desbordante */
+        max-width: 200px; /* Establece un ancho máximo para la columna de descripción */
+      }
+
+      .table-custom th {
+        background-color: #f4f4f4; /* Color de fondo para las cabeceras de las columnas */
+        font-weight: bold; /* Negrita para las cabeceras */
+      }
+
+      .table-custom td {
+        background-color: #fff; /* Color de fondo para las celdas de datos */
+      }
+
+      .header {
+        display: flex;
+        align-items: center; /* Alinea verticalmente el contenido */
+        justify-content: space-between; /* Espacia el contenido a los extremos */
+        margin-bottom: 20px; /* Espacio debajo del header */
+      }
+
+      .header img {
+        width: 100px;
+        height: auto; /* Mantiene la proporción de la imagen */
+      }
+
+      .header-text h1,
+      .header-text p {
+        margin: 0; /* Elimina el margen por defecto */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Informe de Clientes</h1>
+        <img
+          src="https://pbs.twimg.com/profile_images/1252440402013151235/DiOzDF3K_400x400.jpg"
+          alt="Logo"
+        />
+        <p>Fecha: {{ fecha_actual }}</p>
+      </div>
+      <div class="content">
+        <h2>Resumen</h2>
+        <p>
+          Este informe proporciona una visión general del estado actual de los
+          clientes en la empresa. A continuación, se detallan los datos clave:
+        </p>
+        <p>Total de clientes: {{ total_clientes }}</p>
+        <p>Clientes activos: {{ clientes_activos }}</p>
+        <p>Clientes inactivos: {{ clientes_inactivos }}</p>
+
+        <h2>Gráfica de Clientes por Mes</h2>
+        <div class="grafica-row">
+          <div class="grafica-container">
+            <img src="{{ grafica }}" alt="Gráfica de Clientes por Mes" />
+          </div>
+        </div>
+
+        <h2>Lista de Clientes</h2>
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Teléfono</th>
+              <th>Dirección</th>
+              <th>Fecha de Creación</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for cliente in clientes %}
+            <tr>
+              <td>{{ cliente.nombre }}</td>
+              <td>{{ cliente.apellido }}</td>
+              <td>{{ cliente.telefono }}</td>
+              <td>{{ cliente.direccion }}</td>
+              <td>{{ cliente.creacion|date:"d-m-Y" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="6">No hay clientes disponibles.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

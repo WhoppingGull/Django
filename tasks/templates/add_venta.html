@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Crear Venta</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ venta_form.as_p }}
+
+  <h2>Detalles de Venta</h2>
+  {{ detalle_formset.management_form }}
+  
+  <div id="detalles-container">
+    {% for form in detalle_formset %}
+      <div class="detalle-form">
+        {{ form.producto.label_tag }} {{ form.producto }}
+        {{ form.cantidad.label_tag }} {{ form.cantidad }}
+        <p>Precio Unitario: <span class="precio-unitario" data-precio="{{ form.producto.value }}"></span></p>
+        <p>Subtotal: <span class="subtotal-por-producto">0</span></p>
+        <p>IVA: <span class="iva-por-producto">0</span></p>
+        <p>Total: <span class="total-por-producto">0</span></p>
+        <button type="button" class="remove-form btn btn-danger">Eliminar</button>
+      </div>
+    {% endfor %}
+  </div>
+  
+  <h3>Total Venta: <span id="total-venta">0</span></h3>
+  
+  <button type="submit" class="btn btn-primary">Guardar Venta</button>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const totalVentaElem = document.getElementById('total-venta');
+    
+    function actualizarPrecios() {
+      let totalVenta = 0;
+      
+      document.querySelectorAll('.detalle-form').forEach(function(form) {
+        const productoSelect = form.querySelector('select[name$=producto]');
+        const cantidadInput = form.querySelector('input[name$=cantidad]');
+        const precioUnitarioElem = form.querySelector('.precio-unitario');
+        const subtotalPorProductoElem = form.querySelector('.subtotal-por-producto');
+        const ivaPorProductoElem = form.querySelector('.iva-por-producto');
+        const totalPorProductoElem = form.querySelector('.total-por-producto');
+        
+        const productoId = productoSelect.value;
+        const cantidad = parseInt(cantidadInput.value, 10) || 0;
+        
+        if (productoId) {
+          const precioUnitario = parseFloat(precioUnitarioElem.dataset.precio) || 0;
+          const subtotal = cantidad * precioUnitario;
+          const iva = subtotal * 0.16;
+          const total = subtotal + iva;
+          
+          subtotalPorProductoElem.textContent = subtotal.toFixed(2);
+          ivaPorProductoElem.textContent = iva.toFixed(2);
+          totalPorProductoElem.textContent = total.toFixed(2);
+          
+          totalVenta += total;
+        }
+      });
+      
+      totalVentaElem.textContent = totalVenta.toFixed(2);
+    }
+    
+    document.getElementById('detalles-container').addEventListener('change', function(event) {
+      if (event.target.name.endsWith('producto') || event.target.name.endsWith('cantidad')) {
+        actualizarPrecios();
+      }
+    });
+    
+    document.getElementById('detalles-container').addEventListener('input', function(event) {
+      if (event.target.name.endsWith('cantidad')) {
+        actualizarPrecios();
+      }
+    });
+    
+    actualizarPrecios();
+  });
+</script>
+{% endblock %}

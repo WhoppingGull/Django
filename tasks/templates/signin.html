@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block content %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <style>
+    .alert-custom {
+      background-color: #b71919; /* Amarillo personalizado */
+      color: #fcfcfc; /* Color del texto */
+    }
+    .alert-fade {
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .alert-show {
+      opacity: 1;
+    }
+  </style>
+
+  <body>
+    <div class="container mt-5">
+      <h1 class="mb-4">Signin</h1>
+
+      {% if error %}
+      <div
+        id="error-message"
+        class="alert alert-custom alert-dismissible fade show"
+      >
+        {{ error }}
+      </div>
+      {% endif %}
+
+      <form action="/signin/" method="POST">
+        {% csrf_token %} {{form.as_p}}
+        <button>signin</button>
+      </form>
+
+      {% endblock %}
+    </div>
+  </body>
+</html>

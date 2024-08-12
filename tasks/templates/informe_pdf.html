@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .table-custom {
+        width: 100%;
+        margin: 20px 0;
+      }
+
+      .grafica-row {
+        display: flex; /* Utiliza flexbox para la disposición en una fila */
+        justify-content: space-between; /* Espacia los elementos para que estén en los extremos */
+        margin: 20px 0; /* Ajusta el margen superior e inferior si es necesario */
+      }
+
+      .grafica-container img {
+        width: 300px; /* Ajusta el ancho de la gráfica a un valor fijo */
+        height: auto; /* Mantiene la proporción de la imagen */
+        max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+      }
+
+      .table-custom {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse; /* Para evitar espacios dobles entre bordes */
+      }
+
+      .table-custom th,
+      .table-custom td {
+        border: 1px solid #5981f7; /* Agrega un borde gris claro a las celdas */
+        padding: 8px; /* Espacio interno en las celdas */
+        text-align: center; /* Centra el texto dentro de las celdas */
+        vertical-align: top; /* Alinea el texto al principio de la celda verticalmente */
+        overflow: hidden; /* Oculta el contenido que desborda el área de la celda */
+        text-overflow: ellipsis; /* Muestra puntos suspensivos (...) para el texto desbordante */
+        white-space: nowrap; /* Impide que el texto se ajuste en múltiples líneas */
+      }
+
+      .table-custom td.description {
+        white-space: normal; /* Permite el ajuste de línea en la columna de descripción */
+        overflow: visible; /* Muestra el contenido desbordante */
+        text-overflow: clip; /* No usa puntos suspensivos en lugar de mostrar el contenido desbordante */
+        max-width: 200px; /* Establece un ancho máximo para la columna de descripción */
+      }
+
+      .table-custom th {
+        background-color: #f4f4f4; /* Color de fondo para las cabeceras de las columnas */
+        font-weight: bold; /* Negrita para las cabeceras */
+      }
+
+      .table-custom td {
+        background-color: #fff; /* Color de fondo para las celdas de datos */
+      }
+
+      .header {
+        display: flex;
+        align-items: center; /* Alinea verticalmente el contenido */
+        justify-content: space-between; /* Espacia el contenido a los extremos */
+        margin-bottom: 20px; /* Espacio debajo del header */
+      }
+
+      .header img {
+        width: 100px;
+        height: auto; /* Mantiene la proporción de la imagen */
+      }
+
+      .header-text h1,
+      .header-text p {
+        margin: 0; /* Elimina el margen por defecto */
+      }
+
+      .inline {
+        display: inline;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="header">
+        <img
+          src="https://pbs.twimg.com/profile_images/1252440402013151235/DiOzDF3K_400x400.jpg"
+          alt="Logo"
+        />
+        <div class=".inline">
+          <h1>Informe de Productos</h1>
+          <p>
+            Este infrome muestra el total de productos existentes, el precio
+            total de los productos sumando cada uno y la cantidad en stok
+            existente en el inventario
+          </p>
+          <p>Fecha de impresión: {{ fecha_actual }}</p>
+        </div>
+      </div>
+
+      <div class="grafica-row">
+        <div class="grafica-container">
+          <img src="{{ grafica }}" alt="Gráfica de Stocks" />
+        </div>
+      </div>
+
+      <table class="table-custom">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for producto in productos %}
+          <tr>
+            <td>{{ producto.nombre }}</td>
+            <td class="description">{{ producto.descripcion }}</td>
+            <td>${{ producto.precio }}</td>
+            <td>{{ producto.stock }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4">No hay productos disponibles.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div>
+        <p><strong>Total de Productos:</strong> {{ total_productos }}</p>
+        <p><strong>Total Precio:</strong> ${{ total_precio|floatformat:2 }}</p>
+        <p><strong>Total en Stock:</strong> {{ total_stock }}</p>
+      </div>
+    </div>
+  </body>
+</html>

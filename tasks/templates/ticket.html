@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ticket {{ num_ticket }}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Ticket de Venta</h1>
+      <p><strong>Fecha:</strong> {{ fecha }}</p>
+      <p><strong>Cliente:</strong> {{ cliente }}</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+            <th>IVA</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td>{{ item.producto }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>${{ item.precio }}</td>
+            <td>${{ item.subtotal }}</td>
+            <td>${{ item.iva }}</td>
+            <td>${{ item.total }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p><strong>Subtotal:</strong> ${{ subtotal }}</p>
+      <p><strong>IVA:</strong> ${{ iva_suma }}</p>
+      <p><strong>Total:</strong> ${{ total }}</p>
+      <p><strong>Comentarios:</strong> {{ comentarios }}</p>
+      <p><strong>Empresa:</strong> {{ empresa }}</p>
+    </div>
+  </body>
+</html>

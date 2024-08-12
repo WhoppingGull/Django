@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% block content %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <style>
+    .alert-custom {
+      background-color: #dee42f; /* Amarillo personalizado */
+      color: #000000; /* Color del texto */
+    }
+    .alert-fade {
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .alert-show {
+      opacity: 1;
+    }
+  </style>
+
+  <div class="container mt-5">
+    <h1 class="mb-4">Crear un nuevo Cliente</h1>
+
+    {% if error %}
+    <div
+      id="error-message"
+      class="alert alert-custom alert-dismissible fade show"
+    >
+      {{ error }}
+    </div>
+    {% endif %}
+
+    <form action="{% url 'crear_clientes' %}" method="POST">
+      {% csrf_token %}
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.nombre.label_tag }} {{ form.nombre }}
+        </div>
+
+        <div class="form-group col-md-6">
+          {{ form.apellido.label_tag }} {{ form.apellido }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.email.label_tag }} {{ form.email }}
+        </div>
+
+        <div class="form-group col-md-6">
+          {{ form.telefono.label_tag }} {{ form.telefono }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          {{ form.direccion.label_tag }} {{ form.direccion }}
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success">Guardar</button>
+    </form>
+  </div>
+
+  {% endblock %}
+</html>

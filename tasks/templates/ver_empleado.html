@@ -1,0 +1,50 @@
+{% extends 'base.html' %} {% block content %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <div class="container mt-5">
+    <h1 class="mb-4">{{ empleado.nombre }} {{ empleado.apellido }}</h1>
+
+    <form>
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.nombre.label_tag }} {{ form.nombre }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.apellido.label_tag }} {{ form.apellido }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.email.label_tag }} {{ form.email }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.telefono.label_tag }} {{ form.telefono }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.direccion.label_tag }} {{ form.direccion }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.puesto.label_tag }} {{ form.puesto }}
+        </div>
+      </div>
+
+      <a href="{% url 'empleados' %}" class="btn btn-primary"
+        >Volver a la lista</a
+      >
+    </form>
+  </div>
+
+  {% endblock %}
+</html>

@@ -1,0 +1,60 @@
+{% extends 'base.html' %} {% block content %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <style>
+    .alert-custom {
+      background-color: #f8810a; /* Amarillo personalizado */
+      color: #212529; /* Color del texto */
+    }
+    .alert-fade {
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .alert-show {
+      opacity: 1;
+    }
+  </style>
+
+  <body>
+    <div class="container mt-5">
+      <h1 class="mb-4">Hola</h1>
+
+      {% if error %}
+      <div
+        id="error-message"
+        class="alert alert-custom alert-dismissible fade show"
+      >
+        {{ error }}
+      </div>
+      {% endif %}
+
+      <form action="/signup/" method="POST" class="form-group">
+        {% csrf_token %} 
+        
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Signup</button>
+      </form>
+    </div>
+
+    <script>
+      // Script para hacer que la alerta de error se desvanezca después de unos segundos
+      document.addEventListener("DOMContentLoaded", function () {
+        var errorElement = document.getElementById("error-message");
+        if (errorElement) {
+          setTimeout(function () {
+            errorElement.classList.remove("show");
+            errorElement.classList.add("alert-fade");
+          }, 5000); // El mensaje se desvanecerá después de 5 segundos
+        }
+      });
+    </script>
+  </body>
+</html>
+{% endblock %}
